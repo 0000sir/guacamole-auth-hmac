@@ -272,17 +272,16 @@ public class HmacAuthenticationProvider extends SimpleAuthenticationProvider {
     }
 
     private void initFromProperties() throws GuacamoleException {
-        LocalEnvironment environment = new LocalEnvironment();
-        String secretKey = environment.getRequiredProperty(SECRET_KEY);
+        LocalEnvironment env = new LocalEnvironment();
+        String secretKey = env.getRequiredProperty(SECRET_KEY);
         signatureVerifier = new SignatureVerifier(secretKey);
-        defaultProtocol = environment.getProperty(DEFAULT_PROTOCOL);
-        useLocalPrivKey = environment.getProperty(USE_LOCAL_PRIVKEY);
-        keyDir = environment.getProperty(KEY_DIR);
+        defaultProtocol = env.getProperty(DEFAULT_PROTOCOL);
+        useLocalPrivKey = env.getProperty(USE_LOCAL_PRIVKEY);
         if (defaultProtocol == null) defaultProtocol = "rdp";
-        if (environment.getProperty(TIMESTAMP_AGE_LIMIT) == null){
+        if (env.getProperty(TIMESTAMP_AGE_LIMIT) == null){
            timestampAgeLimit = TEN_MINUTES;
         }  else {
-           timestampAgeLimit = environment.getProperty(TIMESTAMP_AGE_LIMIT);
+           timestampAgeLimit = env.getProperty(TIMESTAMP_AGE_LIMIT);
         }
     }
 }

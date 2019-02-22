@@ -1,6 +1,7 @@
 # guacamole-auth-hmac
 
-Built for **Guacamole 0.9.13-incubating**.
+Built for **Guacamole 1.0.0 **.
+
 
 ## Description
 
