@@ -7,7 +7,7 @@ import org.apache.guacamole.net.auth.UserContext;
 import org.apache.guacamole.net.auth.simple.SimpleAuthenticationProvider;
 import org.apache.guacamole.net.auth.simple.SimpleConnection;
 import org.apache.guacamole.net.auth.simple.SimpleConnectionDirectory;
-import org.apache.guacamole.properties.GuacamoleProperties;
+import org.apache.guacamole.environment.LocalEnvironment;
 import org.apache.guacamole.properties.IntegerGuacamoleProperty;
 import org.apache.guacamole.properties.StringGuacamoleProperty;
 import org.apache.guacamole.properties.BooleanGuacamoleProperty;
@@ -275,15 +275,16 @@ public class HmacAuthenticationProvider extends SimpleAuthenticationProvider {
     }
 
     private void initFromProperties() throws GuacamoleException {
-        String secretKey = GuacamoleProperties.getRequiredProperty(SECRET_KEY);
+        LocalEnvironment env = new LocalEnvironment();
+        String secretKey = env.getRequiredProperty(SECRET_KEY);
         signatureVerifier = new SignatureVerifier(secretKey);
-        defaultProtocol = GuacamoleProperties.getProperty(DEFAULT_PROTOCOL);
-        useLocalPrivKey = GuacamoleProperties.getProperty(USE_LOCAL_PRIVKEY);
+        defaultProtocol = env.getProperty(DEFAULT_PROTOCOL);
+        useLocalPrivKey = env.getProperty(USE_LOCAL_PRIVKEY);
         if (defaultProtocol == null) defaultProtocol = "rdp";
-        if (GuacamoleProperties.getProperty(TIMESTAMP_AGE_LIMIT) == null){
+        if (env.getProperty(TIMESTAMP_AGE_LIMIT) == null){
            timestampAgeLimit = TEN_MINUTES;
         }  else {
-           timestampAgeLimit = GuacamoleProperties.getProperty(TIMESTAMP_AGE_LIMIT);
+           timestampAgeLimit = env.getProperty(TIMESTAMP_AGE_LIMIT);
         }
     }
 }
